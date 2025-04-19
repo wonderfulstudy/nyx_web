@@ -1,3 +1,5 @@
+// import { login } from '@/api/user'
+
 export default {
   route: {
     dashboard: '首页',
@@ -73,13 +75,22 @@ export default {
     size: '布局大小'
   },
   login: {
+    loginMethod1: '账号密码登录',
+    loginMethod2: '手机号登录',
     title: '系统登录',
     logIn: '登录',
     username: '账号',
     password: '密码',
+    mobile: '电话号码',
+    sms: '验证码',
     any: '随便填',
     thirdparty: '第三方登录',
-    thirdpartyTips: '本地不能模拟，请结合自己业务进行模拟！！！'
+    thirdpartyTips: '本地不能模拟，请结合自己业务进行模拟！！！',
+    usernameError: '请输入正确的用户名!',
+    passwordError: '请输入合法的密码!',
+    mobileError: '输入合法的手机号码!',
+    codeError: '请输入合法的验证码!',
+    sendCode: '获取验证码'
   },
   documentation: {
     documentation: '文档',

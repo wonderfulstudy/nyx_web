@@ -3,121 +3,176 @@
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" autocomplete="on" label-position="left">
 
       <div class="title-container">
-        <h3 class="title">
-          {{ $t('login.title') }}
+        <h3 class="loginMethod" @click="selectLoginMethod('pwd')">
+          {{ $t('login.loginMethod1') }}
+        </h3>
+        <h3 class="loginMethod separator">|</h3>
+        <h3 class="loginMethod" @click="selectLoginMethod('sms')">
+          {{ $t('login.loginMethod2') }}
         </h3>
         <lang-select class="set-language" />
       </div>
 
-      <el-form-item prop="username">
-        <span class="svg-container">
-          <svg-icon icon-class="user" />
-        </span>
-        <el-input
-          ref="username"
-          v-model="loginForm.username"
-          :placeholder="$t('login.username')"
-          name="username"
-          type="text"
-          tabindex="1"
-          autocomplete="on"
-        />
-      </el-form-item>
-
-      <el-tooltip v-model="capsTooltip" content="Caps lock is On" placement="right" manual>
-        <el-form-item prop="password">
+      <!-- 账号密码登录 -->
+      <template v-if="currentLoginMethod === 'pwd'">
+        <el-form-item prop="username">
           <span class="svg-container">
-            <svg-icon icon-class="password" />
+            <svg-icon icon-class="user" />
           </span>
           <el-input
-            :key="passwordType"
-            ref="password"
-            v-model="loginForm.password"
-            :type="passwordType"
-            :placeholder="$t('login.password')"
-            name="password"
+            ref="username"
+            v-model="loginForm.username"
+            :placeholder="$t('login.username')"
+            name="username"
+            type="text"
+            tabindex="1"
+            autocomplete="on"
+          />
+        </el-form-item>
+
+        <el-tooltip v-model="capsTooltip" content="Caps lock is On" placement="right" manual>
+          <el-form-item prop="password">
+            <span class="svg-container">
+              <svg-icon icon-class="password" />
+            </span>
+            <el-input
+              :key="passwordType"
+              ref="password"
+              v-model="loginForm.password"
+              :type="passwordType"
+              :placeholder="$t('login.password')"
+              name="password"
+              tabindex="2"
+              autocomplete="on"
+              @keyup.native="checkCapslock"
+              @blur="capsTooltip = false"
+              @keyup.enter.native="handleLogin"
+            />
+            <span class="show-pwd" @click="showPwd">
+              <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
+            </span>
+          </el-form-item>
+        </el-tooltip>
+      </template>
+
+      <!-- 短信验证码登录 -->
+      <template v-else-if="currentLoginMethod === 'sms'">
+        <el-form-item prop="mobile">
+          <span class="svg-container">
+            <svg-icon icon-class="phone" />
+          </span>
+          <el-input
+            ref="mobile"
+            v-model="loginForm.mobile"
+            :placeholder="$t('login.mobile')"
+            name="mobile"
+            type="text"
+            tabindex="1"
+            autocomplete="on"
+          />
+        </el-form-item>
+
+        <el-form-item prop="code">
+          <span class="svg-container">
+            <svg-icon icon-class="message" />
+          </span>
+          <el-input
+            ref="code"
+            v-model="loginForm.code"
+            :placeholder="$t('login.sms')"
+            name="code"
+            type="text"
             tabindex="2"
             autocomplete="on"
-            @keyup.native="checkCapslock"
-            @blur="capsTooltip = false"
-            @keyup.enter.native="handleLogin"
-          />
-          <span class="show-pwd" @click="showPwd">
-            <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
-          </span>
+          >
+            <template #suffix>
+              <el-button
+                type="text"
+                :disabled="isSending"
+                style="
+                  padding: 0;
+                  border: none;
+                  background: none;
+                  height: 100%;
+                  line-height: 47px; /* 与输入框高度一致 */
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;"
+                @click="sendSMSCode"
+              >
+                {{ isSending ? `${seconds}秒后重试` : $t('login.sendCode') }}
+              </el-button>
+            </template>
+          </el-input>
         </el-form-item>
-      </el-tooltip>
+      </template>
 
       <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">
         {{ $t('login.logIn') }}
       </el-button>
-
-      <div style="position:relative">
-        <div class="tips">
-          <span>{{ $t('login.username') }} : admin</span>
-          <span>{{ $t('login.password') }} : {{ $t('login.any') }}</span>
-        </div>
-        <div class="tips">
-          <span style="margin-right:18px;">
-            {{ $t('login.username') }} : editor
-          </span>
-          <span>{{ $t('login.password') }} : {{ $t('login.any') }}</span>
-        </div>
-
-        <el-button class="thirdparty-button" type="primary" @click="showDialog=true">
-          {{ $t('login.thirdparty') }}
-        </el-button>
-      </div>
     </el-form>
-
-    <el-dialog :title="$t('login.thirdparty')" :visible.sync="showDialog">
-      {{ $t('login.thirdpartyTips') }}
-      <br>
-      <br>
-      <br>
-      <social-sign />
-    </el-dialog>
   </div>
 </template>
 
 <script>
 import { validUsername } from '@/utils/validate'
 import LangSelect from '@/components/LangSelect'
-import SocialSign from './components/SocialSignin'
 
 export default {
   name: 'Login',
-  components: { LangSelect, SocialSign },
+  components: { LangSelect },
   data() {
     const validateUsername = (rule, value, callback) => {
       if (!validUsername(value)) {
-        callback(new Error('Please enter the correct user name'))
+        callback(new Error(this.$t('login.usernameError')))
       } else {
         callback()
       }
     }
     const validatePassword = (rule, value, callback) => {
       if (value.length < 6) {
-        callback(new Error('The password can not be less than 6 digits'))
+        callback(new Error(this.$t('login.passwordError')))
+      } else {
+        callback()
+      }
+    }
+    const validateMobile = (rule, value, callback) => {
+      const reg = /^1[3-9]\d{9}$/
+      if (!reg.test(value)) {
+        callback(new Error(this.$t('login.mobileError')))
+      } else {
+        callback()
+      }
+    }
+    const validateCode = (rule, value, callback) => {
+      if (value.length !== 6) {
+        callback(new Error(this.$t('login.codeError')))
       } else {
         callback()
       }
     }
     return {
       loginForm: {
-        username: 'admin',
-        password: '111111'
+        username: '',
+        password: '',
+        mobile: '',
+        code: ''
       },
       loginRules: {
         username: [{ required: true, trigger: 'blur', validator: validateUsername }],
-        password: [{ required: true, trigger: 'blur', validator: validatePassword }]
+        password: [{ required: true, trigger: 'blur', validator: validatePassword }],
+        mobile: [{ required: true, trigger: 'blur', validator: validateMobile }],
+        code: [{ required: true, trigger: 'blur', validator: validateCode }]
       },
       passwordType: 'password',
       capsTooltip: false,
       loading: false,
       showDialog: false,
       redirect: undefined,
-      otherQuery: {}
+      otherQuery: {},
+      currentLoginMethod: 'pwd', // 当前登录方式，默认为账号密码登录
+      isSending: false, // 是否正在发送验证码
+      seconds: 60 // 倒计时秒数
     }
   },
   watch: {
@@ -132,20 +187,14 @@ export default {
       immediate: true
     }
   },
-  created() {
-    // window.addEventListener('storage', this.afterQRScan)
-  },
-  mounted() {
-    if (this.loginForm.username === '') {
-      this.$refs.username.focus()
-    } else if (this.loginForm.password === '') {
-      this.$refs.password.focus()
-    }
-  },
-  destroyed() {
-    // window.removeEventListener('storage', this.afterQRScan)
-  },
   methods: {
+    selectLoginMethod(method) {
+      this.loginForm.username = ''
+      this.loginForm.password = ''
+      this.loginForm.mobile = ''
+      this.loginForm.code = ''
+      this.currentLoginMethod = method // 更新当前登录方式
+    },
     checkCapslock(e) {
       const { key } = e
       this.capsTooltip = key && key.length === 1 && (key >= 'A' && key <= 'Z')
@@ -178,6 +227,23 @@ export default {
         }
       })
     },
+    sendSMSCode() {
+      this.$refs.loginForm.validateField('mobile', errorMessage => {
+        if (!errorMessage) {
+          this.isSending = true
+          const timer = setInterval(() => {
+            this.seconds--
+            if (this.seconds <= 0) {
+              clearInterval(timer)
+              this.isSending = false
+              this.seconds = 60
+            }
+          }, 1000)
+          // 这里可以调用发送短信验证码的接口
+          console.log('Sending SMS code to:', this.loginForm.mobile)
+        }
+      })
+    },
     getOtherQuery(query) {
       return Object.keys(query).reduce((acc, cur) => {
         if (cur !== 'redirect') {
@@ -186,24 +252,6 @@ export default {
         return acc
       }, {})
     }
-    // afterQRScan() {
-    //   if (e.key === 'x-admin-oauth-code') {
-    //     const code = getQueryObject(e.newValue)
-    //     const codeMap = {
-    //       wechat: 'code',
-    //       tencent: 'code'
-    //     }
-    //     const type = codeMap[this.auth_type]
-    //     const codeName = code[type]
-    //     if (codeName) {
-    //       this.$store.dispatch('LoginByThirdparty', codeName).then(() => {
-    //         this.$router.push({ path: this.redirect || '/' })
-    //       })
-    //     } else {
-    //       alert('第三方登录失败')
-    //     }
-    //   }
-    // }
   }
 }
 </script>
@@ -297,6 +345,20 @@ $light_gray:#eee;
 
   .title-container {
     position: relative;
+    cursor: pointer;
+
+    .loginMethod {
+      font-size: 26px;
+      color: $light_gray;
+      margin: 0px auto 40px auto;
+      text-align: center;
+      font-weight: bold;
+      display: inline-block;
+    }
+
+    .separator {
+      margin: 0 10px;
+    }
 
     .title {
       font-size: 26px;
