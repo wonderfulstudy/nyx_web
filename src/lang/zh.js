@@ -3,6 +3,8 @@
 export default {
   route: {
     dashboard: '首页',
+    userStatus: '机器运行状态',
+    chainStatus: '全网运行状态',
     documentation: '文档',
     guide: '引导页',
     permission: '权限测试页',
@@ -182,5 +184,17 @@ export default {
     tagsView: '开启 Tags-View',
     fixedHeader: '固定 Header',
     sidebarLogo: '侧边栏 Logo'
+  },
+  userStatus: {
+    nodesOnline: '在线机器数量',
+    nodesUnresponsive: '离线机器数量',
+    nodesStopped: '关机机器数量',
+    wallet: '账户收益'
+  },
+  chainStatus: {
+    nodesOnline: '全网在线节点数量',
+    nodesUnresponsive: '全网离线节点数量',
+    nodesValid: '全网有效节点数量',
+    time: '更新时间'
   }
 }

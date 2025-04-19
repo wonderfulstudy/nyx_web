@@ -84,6 +84,30 @@ export const constantRoutes = [
     ]
   },
   {
+    path: '/userStatus',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/status-user/index'),
+        name: 'UserStatus',
+        meta: { title: 'userStatus', icon: 'dashboard', affix: true }
+      }
+    ]
+  },
+  {
+    path: '/chainStatus',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/status-chain/index'),
+        name: 'ChainStatus',
+        meta: { title: 'chainStatus', icon: 'dashboard', affix: true }
+      }
+    ]
+  },
+  {
     path: '/documentation',
     component: Layout,
     children: [
