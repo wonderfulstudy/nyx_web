@@ -11,7 +11,7 @@ const tokens = {
 const users = {
   'admin-token': {
     roles: ['admin'],
-    introduction: 'I am a super administrator',
+    introduction: '我只是一名普通用户',
     avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
     name: 'Super Admin'
   },

@@ -5,6 +5,7 @@ export default {
     dashboard: '首页',
     userStatus: '机器运行状态',
     chainStatus: '全网运行状态',
+    userWallet: '钱包',
     documentation: '文档',
     guide: '引导页',
     permission: '权限测试页',
@@ -66,7 +67,8 @@ export default {
     clipboardDemo: 'Clipboard',
     i18n: '国际化',
     externalLink: '外链',
-    profile: '个人中心'
+    profile: '个人中心',
+    wallet: '钱包'
   },
   navbar: {
     dashboard: '首页',
@@ -196,5 +198,10 @@ export default {
     nodesUnresponsive: '全网离线节点数量',
     nodesValid: '全网有效节点数量',
     time: '更新时间'
+  },
+  userWallet: {
+    userInfo: '简介',
+    transactionHistory: '交易记录',
+    dstAddress: '地址'
   }
 }

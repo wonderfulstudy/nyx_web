@@ -108,6 +108,18 @@ export const constantRoutes = [
     ]
   },
   {
+    path: '/userwallet',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/user-wallet/index'),
+        name: 'UserWallet',
+        meta: { title: 'userWallet', icon: 'wallet', affix: true }
+      }
+    ]
+  },
+  {
     path: '/documentation',
     component: Layout,
     children: [
