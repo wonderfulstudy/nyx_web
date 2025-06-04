@@ -153,8 +153,8 @@ export default {
     }
     return {
       loginForm: {
-        username: '',
-        password: '',
+        username: 'admin',
+        password: '12345678',
         mobile: '',
         code: ''
       },
