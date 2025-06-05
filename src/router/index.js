@@ -84,30 +84,6 @@ export const constantRoutes = [
     ]
   },
   {
-    path: '/userStatus',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/status-user/index'),
-        name: 'UserStatus',
-        meta: { title: 'userStatus', icon: 'dashboard', affix: true }
-      }
-    ]
-  },
-  {
-    path: '/chainStatus',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/status-chain/index'),
-        name: 'ChainStatus',
-        meta: { title: 'chainStatus', icon: 'dashboard', affix: true }
-      }
-    ]
-  },
-  {
     path: '/userwallet',
     component: Layout,
     children: [
@@ -174,7 +150,7 @@ export const asyncRoutes = [
     meta: {
       title: 'permission',
       icon: 'lock',
-      roles: ['admin', 'editor'] // you can set roles in root nav
+      roles: ['admin', 'operator', 'user'] // you can set roles in root nav
     },
     children: [
       {

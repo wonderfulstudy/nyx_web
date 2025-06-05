@@ -2,9 +2,9 @@
 import CryptoJS from 'crypto-js'
 
 export function aesEncodeBase64(str) {
-    // const srcs = CryptoJS.enc.Utf8.parse(str) // 加密前明文
-    var key = PaddingLeft(process.env.VUE_APP_AES_KEY, 16);
+    var key = PaddingLeft(process.env.VUE_APP_AES_KEY, 32);
     key = CryptoJS.enc.Utf8.parse(key);
+    console.log("key", key)
     var encryptedData = CryptoJS.AES.encrypt(str, key, {
         iv: key,
         mode: CryptoJS.mode.CBC,

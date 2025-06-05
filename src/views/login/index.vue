@@ -154,7 +154,7 @@ export default {
     return {
       loginForm: {
         username: 'admin',
-        password: '12345678',
+        password: 'CPPE-cd@2019',
         mobile: '',
         code: ''
       },

@@ -187,21 +187,13 @@ export default {
     fixedHeader: '固定 Header',
     sidebarLogo: '侧边栏 Logo'
   },
-  userStatus: {
-    nodesOnline: '在线机器数量',
-    nodesUnresponsive: '离线机器数量',
-    nodesStopped: '关机机器数量',
-    wallet: '账户收益'
-  },
-  chainStatus: {
-    nodesOnline: '全网在线节点数量',
-    nodesUnresponsive: '全网离线节点数量',
-    nodesValid: '全网有效节点数量',
-    time: '更新时间'
-  },
-  userWallet: {
-    userInfo: '简介',
-    transactionHistory: '交易记录',
-    dstAddress: '地址'
+  dashboardView: {
+    managerDiv1: '全网有效节点总数',
+    managerDiv2: '全网在线节点总数',
+    managerDiv3: '全网离线节点总数',
+    managerDiv4: '更新时间',
+    userDiv1: '拥有机器总数',
+    userDiv2: '在线机器总数',
+    userDiv3: '更新时间'
   }
 }

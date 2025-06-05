@@ -3,9 +3,7 @@ import { aesEncodeBase64 } from '@/vendor/Crypto.js'
 
 export function login(data) {
   try {
-    console.log('原始数据:', data)
     const encryptedData = aesEncodeBase64(JSON.stringify(data))
-    console.log('加密后的数据:', encryptedData)
     return request({
       url: '/api/v1/user/login',
       method: 'post',
@@ -15,7 +13,6 @@ export function login(data) {
       }
     })
   } catch (error) {
-    console.error('加密失败:', error)
     return Promise.reject(error)
   }
 }
