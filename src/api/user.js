@@ -31,3 +31,47 @@ export function logout() {
     method: 'post'
   })
 }
+
+export function fetchUserList(query) {
+  return request({
+    url: '/api/v1/user/list',
+    method: 'get',
+    params: query
+  })
+}
+
+export function createUser(data) {
+  const user = aesEncodeBase64(JSON.stringify(data))
+  return request({
+    url: '/api/v1/user/create',
+    method: 'post',
+    data: user,
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+}
+
+export function deleteUser(data) {
+  const user = aesEncodeBase64(JSON.stringify(data))
+  return request({
+    url: '/api/v1/user/delete',
+    method: 'post',
+    data: user,
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+}
+
+export function updateUser(data) {
+  return request({
+    url: '/api/v1/user/update',
+    method: 'post',
+    data: data,
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+}
+
