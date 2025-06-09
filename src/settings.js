@@ -1,5 +1,5 @@
 module.exports = {
-  title: 'nyx提币系统',
+  title: 'dephy提币系统',
 
   /**
    * @type {boolean} true | false
