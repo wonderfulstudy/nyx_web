@@ -161,6 +161,23 @@ export const asyncRoutes = [
       }
     ]
   },
+  {
+    path: '/wallet',
+    component: Layout,
+    redirect: '/wallet',
+    name: 'Wallet',
+    children: [
+      {
+        path: '',
+        component: () => import('@/views/wallet/index'),
+        meta: {
+          title: 'wallet',
+          icon: 'wallet',
+          roles: ['user']
+        }
+      }
+    ]
+  },
 
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }

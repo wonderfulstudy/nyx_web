@@ -236,5 +236,22 @@ export default {
     workerUptime: '节点积分',
     workerChainCreatedAt: '节点创建时间',
     workerChainUpdatedAt: '节点创建时间'
+  },
+  walletView: {
+    introduction: '个人简介',
+    wallet: '钱包',
+    blance: '余额',
+    withdraw: '提现',
+    pow: 'POW收益',
+    pos: 'POS收益',
+    about: '账户详情',
+    announcement: '公告'
+  },
+  walletAction: {
+    pow: 'POW收益',
+    pos: 'POS收益',
+    withdraw: '提现',
+    transfer: '转账',
+    deposit: '充值'
   }
 }
