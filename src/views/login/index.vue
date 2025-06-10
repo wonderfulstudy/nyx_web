@@ -115,42 +115,12 @@
 </template>
 
 <script>
-import { validUsername } from '@/utils/validate'
 import LangSelect from '@/components/LangSelect'
 
 export default {
   name: 'Login',
   components: { LangSelect },
   data() {
-    const validateUsername = (rule, value, callback) => {
-      if (!validUsername(value)) {
-        callback(new Error(this.$t('login.usernameError')))
-      } else {
-        callback()
-      }
-    }
-    const validatePassword = (rule, value, callback) => {
-      if (value.length < 6) {
-        callback(new Error(this.$t('login.passwordError')))
-      } else {
-        callback()
-      }
-    }
-    const validateMobile = (rule, value, callback) => {
-      const reg = /^1[3-9]\d{9}$/
-      if (!reg.test(value)) {
-        callback(new Error(this.$t('login.mobileError')))
-      } else {
-        callback()
-      }
-    }
-    const validateCode = (rule, value, callback) => {
-      if (value.length !== 6) {
-        callback(new Error(this.$t('login.codeError')))
-      } else {
-        callback()
-      }
-    }
     return {
       loginForm: {
         username: '',
@@ -159,10 +129,10 @@ export default {
         code: ''
       },
       loginRules: {
-        username: [{ required: true, trigger: 'blur', validator: validateUsername }],
-        password: [{ required: true, trigger: 'blur', validator: validatePassword }],
-        mobile: [{ required: true, trigger: 'blur', validator: validateMobile }],
-        code: [{ required: true, trigger: 'blur', validator: validateCode }]
+        username: [{ required: true, trigger: 'blur', message: this.$t('login.usernameError') }],
+        password: [{ required: true, trigger: 'blur', message: this.$t('login.passwordError') }],
+        mobile: [{ required: true, trigger: 'blur', message: this.$t('login.mobileError') }],
+        code: [{ required: true, trigger: 'blur', message: this.$t('login.codeError') }]
       },
       passwordType: 'password',
       capsTooltip: false,

@@ -65,10 +65,11 @@ export function deleteUser(data) {
 }
 
 export function updateUser(data) {
+  const user = aesEncodeBase64(JSON.stringify(data))
   return request({
     url: '/api/v1/user/update',
     method: 'post',
-    data: data,
+    data: user,
     headers: {
       'Content-Type': 'application/json'
     }

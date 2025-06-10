@@ -13,31 +13,31 @@
     <el-table v-loading="listLoading" :data="list" border fit highlight-current-row style="width: 100%">
       <el-table-column align="center" :label="$t('usersView.uuid')" width="300">
         <template slot-scope="{row}">
-          <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" :title="row.Uuid">{{ row.Uuid }}</span>
+          <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" :title="row.uuid">{{ row.uuid }}</span>
         </template>
       </el-table-column>
 
       <el-table-column width="80px" align="center" :label="$t('usersView.username')">
         <template slot-scope="{row}">
-          <span>{{ row.Username }}</span>
+          <span>{{ row.username }}</span>
         </template>
       </el-table-column>
 
       <el-table-column width="80px" align="center" :label="$t('usersView.name')">
         <template slot-scope="{row}">
-          <span>{{ row.Name }}</span>
+          <span>{{ row.name }}</span>
         </template>
       </el-table-column>
 
       <el-table-column width="120px" :label="$t('usersView.phone')">
         <template slot-scope="{row}">
-          <span>{{ row.Phone }}</span>
+          <span>{{ row.phone }}</span>
         </template>
       </el-table-column>
 
       <el-table-column min-width="300px" :label="$t('usersView.address')">
         <template slot-scope="{row}">
-          <span class="address-cell" :title="row.Address">{{ row.Address }}</span>
+          <span class="address-cell" :title="row.address">{{ row.address }}</span>
         </template>
       </el-table-column>
 
@@ -79,16 +79,16 @@
     <el-dialog :title="$t('usersView.editTitle')" :visible.sync="editDialogVisible">
       <el-form ref="editForm" :model="currentRow" :rules="rules">
         <el-form-item :label="$t('usersView.editUserName')" prop="username">
-          <el-input v-model="currentRow.Username" autocomplete="off" />
+          <el-input v-model="currentRow.username" autocomplete="off" />
         </el-form-item>
         <el-form-item :label="$t('usersView.editName')" prop="name">
-          <el-input v-model="currentRow.Name" autocomplete="off" />
+          <el-input v-model="currentRow.name" autocomplete="off" />
         </el-form-item>
         <el-form-item :label="$t('usersView.editPhone')" prop="phone">
-          <el-input v-model="currentRow.Phone" autocomplete="off" />
+          <el-input v-model="currentRow.phone" autocomplete="off" />
         </el-form-item>
         <el-form-item :label="$t('usersView.editAddress')" prop="address">
-          <el-input v-model="currentRow.Address" autocomplete="off" />
+          <el-input v-model="currentRow.address" autocomplete="off" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -234,6 +234,7 @@ export default {
               type: 'success',
               duration: 2000
             })
+            this.getList()
           } else {
             throw new Error('无效响应格式', response.data)
           }
@@ -266,6 +267,7 @@ export default {
               type: 'success',
               duration: 2000
             })
+            this.getList()
           } else {
             throw new Error('无效响应格式', response.data)
           }
