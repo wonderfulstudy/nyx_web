@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 
-export function getWallet(uuid) {
+export function getWalletInfo(uuid) {
   return request({
     url: '/api/v1/wallet/info',
     method: 'get',

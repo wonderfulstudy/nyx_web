@@ -227,7 +227,12 @@ export default {
     createAddress: '提币地址',
     createSubmit: '提交',
     createCancel: '取消',
-    createSuccess: '新增成功'
+    createSuccess: '新增成功',
+    workersCount: '设备数',
+    walletBalance: '钱包余额',
+    walletPow: 'POW收益',
+    walletPos: 'POS收益',
+    userRole: '用户权限'
   },
   workersView: {
     workerAddress: '节点地址',

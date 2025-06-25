@@ -123,8 +123,8 @@ export default {
   data() {
     return {
       loginForm: {
-        username: '',
-        password: '',
+        username: 'admin',
+        password: 'dephy@2025.com',
         mobile: '',
         code: ''
       },

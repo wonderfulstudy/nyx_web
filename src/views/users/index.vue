@@ -35,9 +35,33 @@
         </template>
       </el-table-column>
 
-      <el-table-column min-width="300px" :label="$t('usersView.address')">
+      <el-table-column min-width="200px" :label="$t('usersView.address')">
         <template slot-scope="{row}">
           <span class="address-cell" :title="row.address">{{ row.address }}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column min-width="50px" :label="$t('usersView.workersCount')" align="center">
+        <template slot-scope="{row}">
+          <span>{{ row.workersCount }}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column min-width="60px" :label="$t('usersView.walletBalance')" align="center">
+        <template slot-scope="{row}">
+          <span>{{ row.walletInfo.balance }}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column min-width="60px" :label="$t('usersView.walletPow')" align="center">
+        <template slot-scope="{row}">
+          <span>{{ row.walletInfo.pow }}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column min-width="60px" :label="$t('usersView.walletPos')" align="center">
+        <template slot-scope="{row}">
+          <span>{{ row.walletInfo.pos }}</span>
         </template>
       </el-table-column>
 
@@ -55,7 +79,7 @@
 
     <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="getList" />
 
-    <el-dialog :title="$t('usersView.createTitle')" :visible.sync="createDialogVisible">
+    <!-- <el-dialog :title="$t('usersView.createTitle')" :visible.sync="createDialogVisible">
       <el-form ref="createForm" :model="newUser" :rules="rules">
         <el-form-item :label="$t('usersView.createUserName')" prop="username">
           <el-input v-model="newUser.username" autocomplete="off" />
@@ -68,6 +92,42 @@
         </el-form-item>
         <el-form-item :label="$t('usersView.createAddress')" prop="address">
           <el-input v-model="newUser.address" autocomplete="off" />
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="createDialogVisible = false">{{ $t('usersView.createCancel') }}</el-button>
+        <el-button type="primary" @click="createChange">{{ $t('usersView.createSubmit') }}</el-button>
+      </div>
+    </el-dialog> -->
+
+    <el-dialog :title="$t('usersView.createTitle')" :visible.sync="createDialogVisible">
+      <el-form ref="createForm" :model="newUser" :rules="rules">
+        <el-row :gutter="20">
+          <el-col :span="6">
+            <el-form-item :label="$t('usersView.createUserName')" prop="username">
+              <el-input v-model="newUser.username" autocomplete="off" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item :label="$t('usersView.createPhone')" prop="phone">
+              <el-input v-model="newUser.phone" autocomplete="off">
+                <template #prefix>+86</template>
+              </el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item :label="$t('usersView.createName')" prop="name">
+              <el-input v-model="newUser.name" autocomplete="off" />
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-form-item :label="$t('usersView.createAddress')" prop="address">
+          <el-input v-model="newUser.address" autocomplete="off" placeholder="solana链地址" />
+        </el-form-item>
+        <el-form-item :label="$t('usersView.userRole')">
+          <el-select ref="select" v-model="value" placeholder="用户角色">
+            <el-option v-for="item in roles" :key="item.value" :label="item.label" :value="item.value" />
+          </el-select>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -123,6 +183,11 @@ export default {
           { pattern: /^1[3-9]\d{9}$/, message: '请输入有效的手机号码', trigger: 'blur' }
         ]
       },
+      roles: [
+        { value: '0', label: '超级管理员' },
+        { value: '1', label: '管理员' },
+        { value: '2', label: '普通用户' }
+      ],
       list: null,
       listLoading: true,
       total: 0,
@@ -151,8 +216,8 @@ export default {
       this.listLoading = true
       try {
         const response = await fetchUserList(this.listQuery)
-        if (response.data && response.data.items && response.data.total !== undefined) {
-          this.list = response.data.items
+        if (response.data && response.data.users && response.data.total !== undefined) {
+          this.list = response.data.users
           this.total = response.data.total
         } else {
           console.error('Invalid data structure from API')

@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import { getWallet } from '@/api/wallet'
+import { getWalletInfo } from '@/api/wallet'
 
 export default {
   props: {
@@ -81,7 +81,7 @@ export default {
       }
 
       // 2. 调用 API
-      getWallet(this.user.uuid)
+      getWalletInfo(this.user.uuid)
         .then(response => {
           this.wallet.balance = response.data.balance
           this.wallet.pow = response.data.pow

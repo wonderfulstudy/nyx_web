@@ -104,8 +104,8 @@ export default {
       this.listLoading = true
       try {
         const response = await fetchWorkerList(this.listQuery)
-        if (response.data && response.data.items && response.data.total !== undefined) {
-          this.list = response.data.items
+        if (response.data && response.data.workers && response.data.total !== undefined) {
+          this.list = response.data.workers
           this.total = response.data.total
         } else {
           console.error('Invalid data structure from API')
